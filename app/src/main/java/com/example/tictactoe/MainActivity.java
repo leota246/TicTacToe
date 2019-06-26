@@ -14,7 +14,7 @@ public class MainActivity extends AppCompatActivity {
     static Button button_00, button_01, button_02, button_10, button_11, button_12, button_20, button_21, button_22;
     static TextView score1, score2;
     static Button newgame;
-    static int turn, s1, s2;
+    static int turn, s1, s2,set;
     static String p1 = "X";
     static String p2 = "O";
 
@@ -91,6 +91,21 @@ public class MainActivity extends AppCompatActivity {
                 }
                 button.setClickable(false);
                 turn++;
+                ++set;
+                if (set==10){
+                    final AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+                    builder.setTitle("Sorry")
+                            .setMessage("It's a tie!")
+                            .setPositiveButton("New Game", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int i) {
+                                    clear();
+                                }
+                            });
+                    AlertDialog alert = builder.create();
+                    alert.show();
+                    set=0;
+                }
             }
         });
     }
@@ -131,6 +146,7 @@ public class MainActivity extends AppCompatActivity {
             AlertDialog alert = builder.create();
             alert.show();
             score1.setText(Integer.toString(++s1));
+            set=0;
         } else if (button.getText().equals(p2)) {
             final AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
             builder.setTitle("Congratulation!")
@@ -144,6 +160,7 @@ public class MainActivity extends AppCompatActivity {
             AlertDialog alert = builder.create();
             alert.show();
             score2.setText(Integer.toString(++s2));
+            set=0;
         }
     }
 }
