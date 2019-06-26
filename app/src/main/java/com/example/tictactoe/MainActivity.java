@@ -5,18 +5,22 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.text.InputType;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity {
 
     static Button button_00, button_01, button_02, button_10, button_11, button_12, button_20, button_21, button_22;
     static TextView score1, score2;
-    static Button newgame;
+    static Button newgame,btnUser,clearscore;
     static int turn, s1, s2,set;
     static String p1 = "X";
     static String p2 = "O";
+    private String user = "";
+    private EditText user1,user2;
 
 
     @Override
@@ -59,8 +63,54 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        clearscore=(Button)findViewById(R.id.clearscore);
+        clearscore.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                clearScore();
+            }
+        });
         score1 = (TextView) findViewById(R.id.score1);
         score2 = (TextView) findViewById(R.id.score2);
+
+        user1 = (EditText) findViewById(R.id.pl1);
+        user2 = (EditText) findViewById(R.id.pl2);
+
+        btnUser = findViewById(R.id.btnUser);
+        btnUser.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+                builder.setTitle("Enter Your Name:");
+
+                // Set up the input
+                final EditText input = new EditText(MainActivity.this);
+
+                input.setInputType(InputType.TYPE_CLASS_TEXT);
+                builder.setView(input);
+
+
+                builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        if (user1.getText().toString().equals("Player 1:"))
+
+                            user1.setText(input.getText().toString());
+                        else user2.setText(input.getText().toString());
+
+                    }
+                });
+                builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which){
+                            dialog.cancel();
+                        }
+
+                });
+
+                builder.show();
+            }
+            });
     }
 
     public void clicked(final Button button) {
@@ -147,6 +197,15 @@ public class MainActivity extends AppCompatActivity {
             alert.show();
             score1.setText(Integer.toString(++s1));
             set=0;
+            button_00.setClickable(false);
+            button_01.setClickable(false);
+            button_02.setClickable(false);
+            button_10.setClickable(false);
+            button_11.setClickable(false);
+            button_12.setClickable(false);
+            button_20.setClickable(false);
+            button_21.setClickable(false);
+            button_22.setClickable(false);
         } else if (button.getText().equals(p2)) {
             final AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
             builder.setTitle("Congratulation!")
@@ -161,6 +220,19 @@ public class MainActivity extends AppCompatActivity {
             alert.show();
             score2.setText(Integer.toString(++s2));
             set=0;
+            button_00.setClickable(false);
+            button_01.setClickable(false);
+            button_02.setClickable(false);
+            button_10.setClickable(false);
+            button_11.setClickable(false);
+            button_12.setClickable(false);
+            button_20.setClickable(false);
+            button_21.setClickable(false);
+            button_22.setClickable(false);
         }
+    }
+    public void clearScore(){
+        score1.setText("0");
+        score2.setText("0");
     }
 }
